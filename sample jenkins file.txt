@@ -1,0 +1,45 @@
+pipeline {
+    agent {
+        kubernetes {
+            yamlFile 'path/to/your/kubernetes/pod.yaml'
+        }
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                container('nodejs') {
+                    script {
+                        sh 'npm install'
+                        // Add any additional build steps as needed
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                container('nodejs') {
+                    script {
+                        sh 'npm test'
+                        // Add any additional test steps as needed
+                    }
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                container('nodejs') {
+                    script {
+                        // Apply Kubernetes configuration from a separate file
+                        sh 'kubectl apply -f path/to/your/kubernetes/deployment.yaml'
+                        // You may need to perform additional steps for deployment
+                    }
+                }
+            }
+        }
+    }
+}
