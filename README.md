@@ -7,6 +7,7 @@ This service expose 3 apis:
 /fibo/:n
 
 Deploying in the Kubernetes cluster:
+
 First create the Pod using deployment.yaml file
 
 kubectl apply -f kubernetes/deployment.yml
